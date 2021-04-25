@@ -8,5 +8,7 @@ To see, whats going on, the image of your camera is getting displayed. Additiona
 
 By moving the purple colored fingers, you change the volume on the computer.
 
+![QccMk.png](https://picr.eu/images/2021/04/25/QccMk.png)
+
 ## Infos
 The project was created with python in combination with opencv and mediapipe.
