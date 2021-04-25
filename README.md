@@ -11,6 +11,7 @@ By moving the purple colored fingers, you change the volume on the computer.
 ## Hand detection
 Mediapipe was used for hand recognition. In the graphic you can see the individual landmarks and the corresponding numbers
 ![QccMk.png](https://picr.eu/images/2021/04/25/QccMk.png)
+
 Source: https://google.github.io/mediapipe/solutions/hands
 
 ## Infos
