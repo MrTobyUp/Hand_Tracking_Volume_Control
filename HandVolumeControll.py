@@ -9,7 +9,7 @@ from comtypes import CLSCTX_ALL
 
 class VolumeControll:
     def __init__(self):
-        pass
+        self.selected_volume = 0
 
     def get_finger_distance(self, lm_list):
         if lm_list is not None and len(lm_list) != 0:
@@ -24,6 +24,7 @@ class VolumeControll:
                 volume = 0
             elif volume > 100:
                 volume = 100
+            self.selected_volume = volume
             return volume
 
     def set_audio_volume(self, selected_volume):
@@ -51,7 +52,14 @@ class VolumeControll:
             cy4 = lm_list[4][2]
             cx8 = lm_list[8][1]
             cy8 = lm_list[8][2]
-            cv2.line(img, (cx4, cy4), (cx8, cy8), (255, 0, 255), 3)
+
+            if self.selected_volume < 33:
+                cv2.line(img, (cx4, cy4), (cx8, cy8), (0, 128, 0), 3)
+            elif self.selected_volume < 66:
+                cv2.line(img, (cx4, cy4), (cx8, cy8), (51, 153, 255), 3)
+            else:
+                cv2.line(img, (cx4, cy4), (cx8, cy8), (0, 0, 128), 3)
+
 
         return img
 
