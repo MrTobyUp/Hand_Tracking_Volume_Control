@@ -45,6 +45,16 @@ class VolumeControll:
             distance = int(math.sqrt(math.pow(x_dist, 2) + math.pow(y_dist, 2)))
             print("distance %s", str(distance))
 
+    def draw_key_objects(self, img, lm_list):
+        if lm_list is not None and len(lm_list) != 0:
+            cx4 = lm_list[4][1]
+            cy4 = lm_list[4][2]
+            cx8 = lm_list[8][1]
+            cy8 = lm_list[8][2]
+            cv2.line(img, (cx4, cy4), (cx8, cy8), (255, 0, 255), 3)
+
+        return img
+
 
 def main():
     cap = cv2.VideoCapture(0)
@@ -54,13 +64,15 @@ def main():
     while True:
         success, img = cap.read()
         img = detector.find_hands(img)
-        lm_list = detector.find_position(img)
+        lm_list = detector.find_position(img, [4, 8])
+
+        img = volume_con.draw_key_objects(img, lm_list)
 
         selected_volume = volume_con.get_finger_distance(lm_list)
         print(selected_volume)
         volume_con.set_audio_volume(selected_volume)
 
-        cv2.putText(img, str(selected_volume), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
+        cv2.putText(img, f'{str(selected_volume)}%', (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
         cv2.imshow("Image", img)
         cv2.waitKey(1)
 

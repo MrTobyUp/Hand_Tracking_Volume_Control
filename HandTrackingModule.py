@@ -15,6 +15,11 @@ class HandDetector():
         # for drawing landmarks
         self.mpDraw = mp.solutions.drawing_utils
 
+        self.cx4 = 0
+        self.cy4 = 0
+        self.cx8 = 0
+        self.cy8 = 0
+
     def find_hands(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(imgRGB)
@@ -25,8 +30,9 @@ class HandDetector():
                     self.mpDraw.draw_landmarks(img, handLms, self.mpHands.HAND_CONNECTIONS)
         return img
 
-    def find_position(self, img, hand_no=0, draw=True):
+    def find_position(self, img, drawing_fingers, hand_no=0, draw=True):
         lm_list = []
+
         if self.results.multi_hand_landmarks:
             my_hand = self.results.multi_hand_landmarks[hand_no]
             for id, lm in enumerate(my_hand.landmark):
@@ -36,7 +42,7 @@ class HandDetector():
                 cx, cy = int(lm.x*w), int(lm.y*h)
                 lm_list.append([id, cx, cy])
                 if draw:
-                    if id == 4 or id == 8:
+                    if id in drawing_fingers:
                         cv2.circle(img, (cx, cy), 10, (255, 0, 255), cv2.FILLED)
             return lm_list
 
@@ -50,9 +56,9 @@ def main():
     while True:
         success, img = cap.read()
         img = detector.find_hands(img)
-        lm_list = detector.find_position(img)
+        lm_list = detector.find_position(img, [4, 8])
 
-        if lm_list != None and len(lm_list) != 0:
+        if lm_list is not None and len(lm_list) != 0:
             print(lm_list[0])
 
         c_time = time.time()
