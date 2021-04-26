@@ -1,6 +1,9 @@
 # Hand Tracking Volume Control
 Project to change the volume with your fingers. By moving together and apart.
 
+### New Feature:
+The volume only changes when the middle finger is raised. So the volume can remain the same without holding your hand up.
+
 ## Visualisation
 To see, whats going on, the image of your camera is getting displayed. Additionally the landmarks are drawn over it, to visualize how to move your fingers.
 
