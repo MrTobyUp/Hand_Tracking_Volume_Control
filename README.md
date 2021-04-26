@@ -4,7 +4,7 @@ Project to change the volume with your fingers. By moving together and apart.
 ## Visualisation
 To see, whats going on, the image of your camera is getting displayed. Additionally the landmarks are drawn over it, to visualize how to move your fingers.
 
-<img src="https://picr.eu/images/2021/04/24/QcNOI.png" alt="QcNOI.png" border="0" />
+![QhFkI.png](https://picr.eu/images/2021/04/26/QhFkI.png)
 
 By moving the purple colored fingers, you change the volume on the computer.
 
