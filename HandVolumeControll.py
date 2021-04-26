@@ -1,4 +1,5 @@
 import HandTrackingModule as htm
+import FingerCounter as finCoun
 import cv2
 import math
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
@@ -60,7 +61,6 @@ class VolumeControll:
             else:
                 cv2.line(img, (cx4, cy4), (cx8, cy8), (0, 0, 128), 3)
 
-
         return img
 
 
@@ -68,6 +68,8 @@ def main():
     cap = cv2.VideoCapture(0)
     detector = htm.HandDetector()
     volume_con = VolumeControll()
+    finger_counter = finCoun.FingerCounter()
+    displayed_volume = 0
 
     while True:
         success, img = cap.read()
@@ -78,9 +80,15 @@ def main():
 
         selected_volume = volume_con.get_finger_distance(lm_list)
         print(selected_volume)
-        volume_con.set_audio_volume(selected_volume)
 
-        cv2.putText(img, f'{str(selected_volume)}%', (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
+        fingers_raised = finger_counter.get_raised_fingers(lm_list)
+        if fingers_raised is not None and len(fingers_raised) != 0:
+            if 2 in fingers_raised:
+                volume_con.set_audio_volume(selected_volume)
+                displayed_volume = selected_volume
+
+        cv2.putText(img, f'{str(displayed_volume)}%', (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
+
         cv2.imshow("Image", img)
         cv2.waitKey(1)
 
