@@ -41,11 +41,22 @@ class HandDetector():
                 # get position
                 cx, cy = int(lm.x*w), int(lm.y*h)
                 lm_list.append([id, cx, cy])
-                if draw:
+                if draw and drawing_fingers is not None:
                     if id in drawing_fingers:
-                        cv2.circle(img, (cx, cy), 10, (255, 0, 255), cv2.FILLED)
+                        cv2.circle(img, (cx, cy), 10, (255, 255, 255), cv2.FILLED)
             return lm_list
 
+    def draw_calibrate(self, img, hand_no=0):
+        if self.results.multi_hand_landmarks:
+            my_hand = self.results.multi_hand_landmarks[hand_no]
+            for id, lm in enumerate(my_hand.landmark):
+                # height and width
+                h, w, c = img.shape
+                # get position
+                cx, cy = int(lm.x * w), int(lm.y * h)
+
+                cv2.circle(img, (cx, cy), 5, (255, 255, 255), cv2.FILLED)
+        return img
 
 def main():
     p_time = 0
